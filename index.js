@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 const { authRoutes } = require("./routes");
 const Axios = require("axios");
-const {CodeIDE} = require("./CodeIDE");
+const { CodeIDE } = require("./CodeIDE");
 
 const cors = require("cors");
 app.use(cors());

@@ -1,6 +1,6 @@
 const Axios = require("axios");
 
-module.exports.CodeIDE = async (req, res) => {
+const CodeIDE = async (req, res) => {
 
     //getting the required data from the request
     let code = req.body.code;
@@ -35,3 +35,4 @@ module.exports.CodeIDE = async (req, res) => {
 }
 
 
+module.exports = CodeIDE;

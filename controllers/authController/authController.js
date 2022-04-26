@@ -8,7 +8,7 @@ const signUp = async (req, res) => {
   let mobile = "7718964516";
 
   try {
-    if (!firstName || !lastName || !email || !password || !mobile) {
+    if (!firstName || !lastName || !email || !password) {
       return res.status(422).json({ error: "Please add all the fields" });
     }
     if (!validator.isEmail(email)) {
@@ -20,18 +20,18 @@ const signUp = async (req, res) => {
     if (lastName.trim() === "") {
       return res.status(422).json({ error: "Last Name is required" });
     }
-    if (mobile.trim().length !== 10) {
-      return res
-        .status(422)
-        .json({ error: "Please enter a 10 digit mobile number" });
-    }
+    // if (mobile.trim().length !== 10) {
+    //   return res
+    //     .status(422)
+    //     .json({ error: "Please enter a 10 digit mobile number" });
+    // }
 
     const user = await new User({
       firstName: String(firstName),
       lastName: String(lastName),
       email: String(email),
       password: String(password),
-      mobile: String(mobile),
+      // mobile: String(mobile),
       role: "user",
     }).save();
 

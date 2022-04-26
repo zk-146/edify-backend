@@ -13,8 +13,7 @@ const router = require("express").Router();
 router.get("/all", isSignedIn, allCourses);
 router.get("/search", isSignedIn, searchCourses);
 router.get("/get", isSignedIn, getCourse);
-router.get("/playlistDuration", getPlaylistDuration);
-router.get("/videoDuration", getVideoDuration);
-// router.get("/course", isSignedIn, course);
+router.get("/playlistDuration", isSignedIn, getPlaylistDuration);
+router.get("/videoDuration", isSignedIn, getVideoDuration);
 
 module.exports = router;

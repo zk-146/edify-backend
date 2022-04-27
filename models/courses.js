@@ -15,7 +15,7 @@ const coursesSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  numberOfVideos: {
+  numberofVideos: {
     type: Number,
   },
   numberOfAssignment: {

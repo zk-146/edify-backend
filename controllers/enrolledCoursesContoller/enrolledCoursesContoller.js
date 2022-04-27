@@ -92,6 +92,25 @@ const updateEnrolledCourse = async (req, res) => {
   try {
     const userId = req.user._id;
     const courseId = req.body.courseId;
+
+    const enrolledCourses = await EnrolledCourses.findOne({
+      courseId,
+      userId,
+    });
+
+    const course = await Course.findById(courseId);
+
+    console.log(enrolledCourses.chapterCompleted, course.numberofVideos);
+    const progress =
+      (enrolledCourses.chapterCompleted.length / course.numberofVideos) * 100;
+
+    const updatedCourse = await EnrolledCourses.findOneAndUpdate(
+      { courseId, userId },
+      {
+        progress,
+      }
+    );
+    console.log(updatedCourse, progress);
   } catch (err) {
     console.log(err);
 
@@ -101,8 +120,50 @@ const updateEnrolledCourse = async (req, res) => {
   }
 };
 
+const markTopicCompleted = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { courseId, topicIndex, unitIndex } = req.body;
+
+    const enrolledCourseData = await EnrolledCourses.findOne({
+      userId,
+      courseId,
+      //   "chapterCompleted.unitNumber": unitIndex,
+      //   "chapterCompleted.topicNumber": topicIndex,
+    });
+
+    const duplicateFound = enrolledCourseData.chapterCompleted.find(
+      (o) => o.unitNumber === unitIndex && o.topicNumber === topicIndex
+    );
+
+    if (duplicateFound) {
+      console.log(duplicateFound);
+      return res.status(400).send({ error: "Already marked as completed" });
+    }
+
+    const enrolledCourse = await EnrolledCourses.findOneAndUpdate(
+      { userId, courseId },
+      {
+        $push: {
+          chapterCompleted: { unitNumber: unitIndex, topicNumber: topicIndex },
+        },
+      }
+    );
+
+    await updateEnrolledCourse(req, res);
+
+    return res.status(200).send({ enrolledCourse });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      error: "Error occurred while updating user's enrolled course",
+    });
+  }
+};
+
 module.exports = {
   allEnrolledCourses,
   getEnrolledCourse,
   addEnrolledCourses,
+  markTopicCompleted,
 };

@@ -33,8 +33,12 @@ const enrolledCoursesSchema = new mongoose.Schema({
   },
   chapterCompleted: [
     {
-      chapterName: {
-        type: String,
+      unitNumber: {
+        type: Number,
+        required: true,
+      },
+      topicNumber: {
+        type: Number,
         required: true,
       },
     },

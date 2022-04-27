@@ -1,5 +1,4 @@
 const { default: axios } = require("axios");
-const bcrypt = require("bcryptjs");
 const Course = require("../../models/courses");
 const gypd = require("./utils");
 const formatDuration = require("./utils/formatDuration");
@@ -19,7 +18,6 @@ const allCourses = async (req, res) => {
 const searchCourses = async (req, res) => {
   try {
     const { searchField } = req.query;
-    console.log(searchField);
     const courses = await Course.find({
       $text: { $search: searchField },
     });

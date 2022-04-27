@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 const { authRoutes } = require("./routes");
 const { courseRoutes } = require("./routes");
+const { enrolledCourseRoutes } = require("./routes");
 const Axios = require("axios");
 const CodeIDE = require("./CodeIDE/CodeIDE");
 const cors = require("cors");
@@ -15,6 +16,7 @@ app.use(express.static("Public"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/enrolledCourses", enrolledCourseRoutes);
 app.post("/compile", CodeIDE);
 
 app.get("/", (req, res) => {

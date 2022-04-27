@@ -5,9 +5,7 @@ const {
   getPlaylistDuration,
   getVideoDuration,
 } = require("../controllers/courseController/courseController");
-
 const { isSignedIn } = require("../middleware/auth");
-
 const router = require("express").Router();
 
 router.get("/all", isSignedIn, allCourses);

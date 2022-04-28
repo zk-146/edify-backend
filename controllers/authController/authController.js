@@ -5,8 +5,6 @@ const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   console.log({ firstName, lastName, email, password, body: req.body });
 
-  let mobile = "7718964516";
-
   try {
     if (!firstName || !lastName || !email || !password) {
       return res.status(422).json({ error: "Please add all the fields" });

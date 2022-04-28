@@ -56,6 +56,9 @@ const coursesSchema = new mongoose.Schema({
       },
     },
   ],
+  skills: {
+    type: Array,
+  },
   tags: {
     type: Array,
   },

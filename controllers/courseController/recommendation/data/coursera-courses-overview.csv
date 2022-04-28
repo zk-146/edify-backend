@@ -1,0 +1,8 @@
+Course URL,Course Name,Learning Product Type,Course Provided By,Course Rating,Course Rated By,Enrolled Student Count,Course Difficulty
+http://localhost:3000/courses/6267dea3cac9f2f68bf3c7d4,Machine Learning Course,PROFESSIONAL CERTIFICATE,Youtube,0,0,1k,Beginner
+http://localhost:3000/courses/6268385cb87e615e851cdf72,Introduction to Data Science,SPECIALIZATION,Youtube,0,0,1k,Beginner
+http://localhost:3000/courses/6268414cb87e615e851cdf73,Data Structure and Algorithm for Everybody,SPECIALIZATION,Youtube,0,0,1k,Beginner
+https://www.coursera.org/professional-certificates/google-it-support,Web Development Course,PROFESSIONAL CERTIFICATE,Youtube,0,0,1k,Beginner
+http://localhost:3000/courses/6269ad51cc8ecff307e5cba4,C Programming Course,SPECIALIZATION,Youtube,0,0,1k,Intermediate
+http://localhost:3000/courses/6269a7d1cc8ecff307e5cba3,Java Course,COURSE,Youtube,0,0,1k,Mixed
+http://localhost:3000/courses/626998eed2dde4b054b6c8e8,Kick Start With React JS,COURSE,Youtube,0,0,1k,Mixed

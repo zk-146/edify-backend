@@ -22,7 +22,7 @@ module.exports.validator = async (req, res, next) => {
       if (!passwordValidator(password)) {
         return res.status(404).send({
           error:
-            "password should contain atleast 8 characters,one uppercase,one lowercase,one number and atleast one special character",
+            "Password should contain atleast 8 characters, one uppercase, one lowercase, one number and atleast one special character",
         });
       }
     }

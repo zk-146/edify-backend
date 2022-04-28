@@ -3,13 +3,14 @@ const Course = require("../../models/courses");
 const gypd = require("./utils");
 const formatDuration = require("./utils/formatDuration");
 const toSeconds = require("./utils/toSeconds");
+const { spawn } = require("child_process");
 
 const allCourses = async (req, res) => {
   try {
     const courses = await Course.find({});
-    res.send({ courses });
+    return res.send({ courses });
   } catch (err) {
-    res
+    return res
       .status(500)
       .send({ error: "An error occurred while fetching the courses" });
   }
@@ -82,7 +83,73 @@ const getVideoDuration = async (req, res) => {
 
   const video = await getDetailsForVideoIds(videoId);
   const duration = formatDuration(toSeconds(video[0].contentDetails.duration));
-  res.send(duration);
+  return res.send(duration);
+};
+
+const findCourses = async (req, res) => {
+  try {
+    const { selectedSkills } = req.query;
+    const allCourseIds = [];
+    console.log(selectedSkills);
+    for (let i = 0; i < selectedSkills.length; i++) {
+      const courses = await Course.find({
+        skills: { $in: [selectedSkills[i]] },
+      });
+      for (let i = 0; i < courses.length; i++) {
+        console.log(courses[i]._id, allCourseIds.indexOf(courses[i]._id));
+        if (allCourseIds.indexOf(courses[i]._id.toString()) === -1)
+          allCourseIds.push(courses[i]._id.toString());
+      }
+    }
+    console.log({ allCourseIds }, allCourseIds.length);
+
+    const allCourses = [];
+    for (let i = 0; i < allCourseIds.length; i++) {
+      console.log(allCourseIds[i]);
+      const course = await Course.findById(allCourseIds[i]);
+      allCourses.push(course);
+    }
+    console.log({ allCourses }, allCourses.length);
+
+    return res.send({ allCourses });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Error occurred while finding the courses" });
+  }
+};
+const getAICourses = async (req, res) => {
+  try {
+    const { selectedSkills, courseSelected } = req.query;
+    console.log(selectedSkills, courseSelected);
+    const python = spawn("python", [
+      "./recommendation/recommendation.py",
+      selectedSkills,
+      courseSelected,
+    ]);
+    var dataToSend;
+
+    // spawn new child process to call the python script
+
+    // collect data from script
+    python.stdout.on("data", function (data) {
+      console.log("Pipe data from python script ...");
+      dataToSend = data.toString();
+    });
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      console.log(dataToSend);
+      // send data to browser
+      // res.send(dataToSend);
+    });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: "Error occurred while recommending AI Courses" });
+  }
 };
 
 module.exports = {
@@ -91,4 +158,6 @@ module.exports = {
   getCourse,
   getPlaylistDuration,
   getVideoDuration,
+  findCourses,
+  getAICourses,
 };

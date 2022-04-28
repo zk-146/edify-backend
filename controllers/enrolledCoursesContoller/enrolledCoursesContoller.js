@@ -104,13 +104,22 @@ const updateEnrolledCourse = async (req, res) => {
     const progress =
       (enrolledCourses.chapterCompleted.length / course.numberofVideos) * 100;
 
-    const updatedCourse = await EnrolledCourses.findOneAndUpdate(
-      { courseId, userId },
-      {
-        progress,
-      }
-    );
-    console.log(updatedCourse, progress);
+    if (progress < 100)
+      await EnrolledCourses.findOneAndUpdate(
+        { courseId, userId },
+        {
+          progress,
+        }
+      );
+    else
+      await EnrolledCourses.findOneAndUpdate(
+        { courseId, userId },
+        {
+          progress,
+          status: "Completed",
+        }
+      );
+    // console.log(updatedCourse, progress);
   } catch (err) {
     console.log(err);
 

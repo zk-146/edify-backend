@@ -1,8 +1,14 @@
-Course URL,Course Name,Learning Product Type,Course Provided By,Course Rating,Course Rated By,Enrolled Student Count,Course Difficulty
-http://localhost:3000/courses/6267dea3cac9f2f68bf3c7d4,Machine Learning Course,PROFESSIONAL CERTIFICATE,Youtube,0,0,1k,Beginner
-http://localhost:3000/courses/6268385cb87e615e851cdf72,Introduction to Data Science,SPECIALIZATION,Youtube,0,0,1k,Beginner
-http://localhost:3000/courses/6268414cb87e615e851cdf73,Data Structure and Algorithm for Everybody,SPECIALIZATION,Youtube,0,0,1k,Beginner
-https://www.coursera.org/professional-certificates/google-it-support,Web Development Course,PROFESSIONAL CERTIFICATE,Youtube,0,0,1k,Beginner
-http://localhost:3000/courses/6269ad51cc8ecff307e5cba4,C Programming Course,SPECIALIZATION,Youtube,0,0,1k,Intermediate
-http://localhost:3000/courses/6269a7d1cc8ecff307e5cba3,Java Course,COURSE,Youtube,0,0,1k,Mixed
-http://localhost:3000/courses/626998eed2dde4b054b6c8e8,Kick Start With React JS,COURSE,Youtube,0,0,1k,Mixed
+Course URL,Course Name,Learning Product Type,Course Provided By,Course Rating,Course Rated By,Enrolled Student Count,Course Difficulty,_id
+http://localhost:3000/courses/6267dea3cac9f2f68bf3c7d4,Machine Learning Course,COURSE,Youtube,0,0,1k,Beginner,6267dea3cac9f2f68bf3c7d4
+http://localhost:3000/courses/6268385cb87e615e851cdf72,Introduction to Data Science,COURSE,Youtube,0,0,1k,Beginner,6268385cb87e615e851cdf72
+http://localhost:3000/courses/6268414cb87e615e851cdf73,Data Structure and Algorithm for Everybody,COURSE,Youtube,0,0,1k,Beginner,6268414cb87e615e851cdf73
+https://www.coursera.org/professional-certificates/google-it-support,Web Development Course,COURSE,Youtube,0,0,1k,Beginner,626afab313d1cfd42a6e4f0a
+http://localhost:3000/courses/6269ad51cc8ecff307e5cba4,C Programming Course,COURSE,Youtube,0,0,1k,Intermediate,6269ad51cc8ecff307e5cba4
+http://localhost:3000/courses/6269a7d1cc8ecff307e5cba3,Java Course,COURSE,Youtube,0,0,1k,Mixed,6269a7d1cc8ecff307e5cba3
+http://localhost:3000/courses/626998eed2dde4b054b6c8e8,Kick Start With React JS,COURSE,Youtube,0,0,1k,Mixed,626998eed2dde4b054b6c8e8
+http://localhost:3000/courses/626af8ca745a319dd8cd3dea,AngularJS for beginners,COURSE,Youtube,0,0,1k,Beginner,626af8ca745a319dd8cd3dea
+http://localhost:3000/courses/626afe7913d1cfd42a6e4f0b,Cascading Style Sheets CSS,COURSE,Youtube,0,0,1k,Mixed,626afe7913d1cfd42a6e4f0b
+http://localhost:3000/courses/626afee3745a319dd8cd3deb,JavaScript from Zero to Expert!,COURSE,Youtube,0,0,1k,Mixed,626afee3745a319dd8cd3deb
+http://localhost:3000/courses/626b05b013d1cfd42a6e4f0c,Node Js Course,COURSE,Youtube,0,0,1k,Beginner,626b05b013d1cfd42a6e4f0c
+http://localhost:3000/courses/626b08a4745a319dd8cd3dec,MongoDB Tutorial,COURSE,Youtube,0,0,1k,Mixed,626b08a4745a319dd8cd3dec
+http://localhost:3000/courses/626b110813d1cfd42a6e4f0e,VUE Js Course Zero to Expert,COURSE,Youtube,0,0,1k,Mixed,626b110813d1cfd42a6e4f0e

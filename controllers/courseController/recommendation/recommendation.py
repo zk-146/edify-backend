@@ -108,7 +108,8 @@ def load_data():
         "recommendation/data/coursera-courses-overview.csv")
     source_path2 = os.path.join(
         "recommendation/data/coursera-individual-courses.csv")
-    df_overview = pd.read_csv(source_path1)
+    df_overview = pd.read_csv(
+        source_path1, encoding="ISO-8859-1", engine='python')
     df_individual = pd.read_csv(source_path2)
     df = pd.concat([df_overview, df_individual], axis=1)
 

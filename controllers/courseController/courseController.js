@@ -119,31 +119,54 @@ const findCourses = async (req, res) => {
       .send({ error: "Error occurred while finding the courses" });
   }
 };
+
+var fs = require("fs");
 const getAICourses = async (req, res) => {
   try {
     const { selectedSkills, courseSelected } = req.query;
     console.log(selectedSkills, courseSelected);
-    const python = spawn("python", [
-      "./recommendation/recommendation.py",
-      selectedSkills,
-      courseSelected,
-    ]);
-    var dataToSend;
+    await new Promise((resolve, reject) => {
+      const python = spawn("python", [
+        "./recommendation/recommendation.py",
+        selectedSkills,
+        courseSelected,
+      ]);
+      var dataToSend;
 
-    // spawn new child process to call the python script
+      // spawn new child process to call the python script
 
-    // collect data from script
-    python.stdout.on("data", function (data) {
-      console.log("Pipe data from python script ...");
-      dataToSend = data.toString();
+      // collect data from script
+      python.stdout.on("data", function (data) {
+        console.log("Pipe data from python script ...");
+        dataToSend = data.toString();
+        console.log("HERE");
+      });
+      // in close event we are sure that stream from child process is closed
+      python.on("close", (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        console.log(dataToSend);
+        if (code === 0) resolve();
+        else reject(new Error());
+        // send data to browser
+        // res.send(dataToSend);
+      });
     });
-    // in close event we are sure that stream from child process is closed
-    python.on("close", (code) => {
-      console.log(`child process close all stdio with code ${code}`);
-      console.log(dataToSend);
-      // send data to browser
-      // res.send(dataToSend);
-    });
+
+    var array = fs.readFileSync("myfile.txt").toString().split("\n");
+    const courseIds = [];
+    for (i in array) {
+      let abc = array[i].substring(0, array[i].length - 1);
+      courseIds.push(abc);
+    }
+    const allCourses = [];
+    for (let i = 0; i < courseIds.length; i++) {
+      if (courseIds[i] !== "") {
+        const courses = await Course.findById(courseIds[i]);
+        allCourses.push(courses);
+      }
+    }
+
+    res.send({ allCourses });
   } catch (err) {
     console.log(err);
     return res

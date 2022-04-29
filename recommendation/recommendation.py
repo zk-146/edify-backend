@@ -68,18 +68,19 @@ def prepare_data(df):
         make_numeric)
 
     def make_count_numeric(x):
+        print("HELLOOOOOOOOOOO", x)
         if('k' in x):
             return (float(x.replace('k', '')) * 1000)
         elif('m' in x):
             return (float(x.replace('m', '')) * 1000000)
         elif('Missing' in x):
             return (np.nan)
-        print("HELLOOOOOOOOOOO")
 
     df['enrolled_student_count'] = df['enrolled_student_count'].apply(
         make_count_numeric)
 
 # extract time to complete
+
     def find_time(x):
         l = x.split(' ')
         idx = 0
@@ -109,9 +110,10 @@ def load_data():
     source_path2 = os.path.join(
         "recommendation/data/coursera-individual-courses.csv")
     df_overview = pd.read_csv(source_path1)
-    df_individual = pd.read_csv(source_path2)
+    print("HERE I AM 0")
+    df_individual = pd.read_csv(
+        source_path2, encoding="ISO-8859-1", engine='python')
     df = pd.concat([df_overview, df_individual], axis=1)
-
     # preprocess it now
     df = prepare_data(df)
 
@@ -122,7 +124,7 @@ def filter(dataframe, chosen_options, feature, id):
     selected_records = []
 
     print(*chosen_options, feature, id)
-    for i in range(7):
+    for i in range(13):
         for op in chosen_options:
             if op in dataframe[feature][i]:
                 selected_records.append(dataframe[id][i])
@@ -132,7 +134,7 @@ def filter(dataframe, chosen_options, feature, id):
 def extract_keywords(df, feature):
     r = Rake()
     keyword_lists = []
-    for i in range(7):
+    for i in range(13):
         descr = df[feature][i]
         r.extract_keywords_from_text(descr)
         key_words_dict_scores = r.get_word_degrees()
@@ -160,6 +162,7 @@ def recommendations(df, input_course, cosine_sim, find_similar=True, how_many=5)
 
     # initialise recommended courses list
     recommended = []
+    ids = []
     selected_course = df[df['course_name'] == input_course]
 
     # print(selected_course)
@@ -181,7 +184,14 @@ def recommendations(df, input_course, cosine_sim, find_similar=True, how_many=5)
     # populating the list with the titles of the best 10 matching movies
     for i in top_sugg:
         qualified = df['course_name'].iloc[i]
+        saveId = df['_id'].iloc[i]
+        ids.append(saveId)
         recommended.append(qualified)
+    with open('myfile.txt', 'w') as f:
+        for item in ids:
+            print(list(item)[0])
+            # print(item.get(key="_id"))
+            f.write("%s\n" % list(item)[0])
 
     return recommended
 
@@ -201,31 +211,25 @@ def content_based_recommendations(df, input_course, courses):
     # make the recommendation
     rec_courses_similar = recommendations(df, input_course, cosine_sim, True)
     temp_sim = df[df['course_name'].isin(rec_courses_similar)]
-    rec_courses_dissimilar = recommendations(
-        df, input_course, cosine_sim, False)
-    temp_dissim = df[df['course_name'].isin(rec_courses_dissimilar)]
-
-    # print(type(rec_courses_similar))
-    # print(*rec_courses_similar)
+    # rec_courses_dissimilar = recommendations(
+    # df, input_course, cosine_sim, False)
+    # temp_dissim = df[df['course_name'].isin(rec_courses_dissimilar)]
 
     print(type(temp_sim))
     print("HEHEHE")
-    print(*temp_sim)
+    # print(temp_sim)
 
     # top 3
-    file1 = open('myfile.txt', "w+")
 
     # file1.writelines(temp_sim)
-    with open('myfile.txt', 'w') as f:
-        for item in rec_courses_similar:
-            f.write("%s\n" % item)
-
-    file1.close()
+    # with open('myfile.txt', 'w') as f:
+    #     for item in rec_courses_similar:
+    #         f.write("%s\n" % item)
 
     print("Top 5 most similar courses")
-    print(temp_sim)
+    # print(temp_sim)
     print("Top 5 most dissimilar courses")
-    print(temp_dissim)
+    # print(temp_dissim)
 
 
 def prep_for_cbr(df, skills_select):
@@ -244,7 +248,7 @@ def prep_for_cbr(df, skills_select):
 
     # filter by skills
     skills_avail = []
-    for i in range(7):
+    for i in range(13):
         skills_avail = skills_avail + df['skills'][i]
 
     skills_avail = list(set(skills_avail))
@@ -282,8 +286,10 @@ def prep_for_cbr(df, skills_select):
     # st.altair_chart(chart)
     # print(skills_select)
     # there should be more than atleast 2 courses
+
     if(len(courses) <= 2):
         print("*There should be atleast 3 courses. Do add more.*")
+    print("HERE I AM")
 
     # input_course = st.sidebar.selectbox(
     #     "Select Course", courses, key='courses')
@@ -321,10 +327,13 @@ def main():
         print(type(sys.argv[1]), type(x), *x)
         print('Second param:'+sys.argv[2]+'#')
         prep_for_cbr(df, x)
+
+        sys.stdout.flush()
         return 0
 
     except:
-        print("An exception error occurred")
+        print("An exception error occurred",
+              sys.exc_info()[0], sys.exc_info())
         return 1
     finally:
         return 2
